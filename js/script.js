@@ -68,5 +68,42 @@ const makeGuess = function(guess){
     else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+        showGuessedLetters();
+        updateWord(guessedLetters);
     }
 };
+
+const showGuessedLetters = function(){
+    //clear the list//
+    guessedLettersElement.innerHTML = "";
+    //Add guessed letter to list//
+    for (const letter of guessedLetters) {
+        const li = document.createElement("li");
+        li.innerText = letter;
+        guessedLettersElement.append(li);
+    }
+};
+
+const updateWord = function(guessedLetters){
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    const revealWord = [];
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            revealWord.push(letter.toUpperCase());
+        }
+        else {
+            revealWord.push("●");
+        }
+    }
+    wordInProgress.innerText = revealWord.join("");
+    checkIfWin();
+};
+
+//add a message if they win//
+const checkIfWin = function () {
+    if (word.toUpperCase() === wordInProgress.innerText) {
+      guessedMessage.classList.add("win");
+      guessedMessage.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+    }
+  };
